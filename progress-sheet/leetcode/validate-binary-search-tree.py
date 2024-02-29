@@ -5,16 +5,9 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def inorder(self, curr):
-        if not curr:
-            return []
-        return self.inorder(curr.left)+[curr.val]+self.inorder(curr.right)
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        ans = self.inorder(root)
-        n = len(ans)
-        if n==1:
+    def isValidBST(self, root: Optional[TreeNode], mn=float('-inf'), mx=float('inf')) -> bool:
+        if not root:
             return True
-        for i in range(n-1):
-            if ans[i]>=ans[i+1]:
-                return False
-        return True
+        if root.val<=mn or root.val>=mx:
+            return False
+        return self.isValidBST(root.left, mn, root.val) and self.isValidBST(root.right, root.val, mx)
